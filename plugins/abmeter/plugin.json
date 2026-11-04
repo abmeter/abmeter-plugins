@@ -1,0 +1,102 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "abmeter",
+  "version": "0.8.0",
+  "description": "Design, run and analyze A/B experiments and feature flags in ABMeter from your assistant.",
+  "author": {
+    "name": "ABMeter",
+    "url": "https://abmeter.ai"
+  },
+  "homepage": "https://abmeter.ai",
+  "keywords": [
+    "ab-testing",
+    "experiments",
+    "feature-flags",
+    "statistics",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "ABMeter",
+        "shortDescription": "A/B tests from your assistant",
+        "longDescription": "ABMeter is an A/B testing and feature flag service for individuals and small teams without a data scientist. Your assistant designs an experiment with you, creates its parameters, variants, metrics and audiences, and reads the results with a two-sample z-test.\n\nStarting or stopping an experiment and turning a feature flag on or off happen only on the ABMeter website, where you are signed in. Once an experiment runs, each user stays in the group they were first assigned to: the assistant cannot change its allocation or audiences, and an edit that would move its users, such as a feature flag that overrides a tested parameter, is refused and handed to you on the website. The assistant can still edit the rest of your configuration from the conversation, including the hypothesis, description and metrics of a running experiment, parameter defaults and variants that no running experiment uses, and the audience or variant of a flag that is already on.\n\nA new account is empty. Ask the assistant to load the sample data to try it on a realistic dataset in a separate demo space.",
+        "developerName": "ABMeter",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Design experiments",
+          "Analyze experiment results",
+          "Manage feature flags"
+        ],
+        "websiteURL": "https://abmeter.ai",
+        "supportURL": "https://abmeter.ai/about#contact",
+        "privacyPolicyURL": "https://abmeter.ai/privacy",
+        "termsOfServiceURL": "https://abmeter.ai/terms",
+        "defaultPrompt": [
+          "Load the ABMeter sample data and show me what is in it.",
+          "Has any running experiment in demo-space reached significance?",
+          "Design an A/B test for a green checkout button."
+        ],
+        "brandColor": "#C55E5D",
+        "composerIcon": "./assets/abmeter-mark.svg",
+        "logo": "./assets/abmeter-mark.svg"
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Load sample data",
+              "prompt": "Load the ABMeter sample data and show me what's in it.",
+              "tools_triggered": "setup_demo, search_experiments",
+              "expected_behavior": "After the user confirms, fills demo-space with sample data and lists its experiments with their states."
+            },
+            {
+              "description": "Read experiment results",
+              "prompt": "List running experiments and tell me which have reached significance.",
+              "tools_triggered": "search_experiments, evaluate_experiment_effects",
+              "expected_behavior": "Lists each running experiment, reports its effect per metric with p-values, and says which are significant. If the account has nothing, the plugin's onboarding offers to load sample data first."
+            },
+            {
+              "description": "Check exposures",
+              "prompt": "Show daily exposures per variant for each running experiment.",
+              "tools_triggered": "search_experiments, evaluate_exposure_stats",
+              "expected_behavior": "Returns daily exposure counts per audience for each running experiment. Offers to load sample data if the account is empty."
+            },
+            {
+              "description": "Create a parameter",
+              "prompt": "Create a parameter checkout-button-color with default value blue.",
+              "tools_triggered": "create_parameter",
+              "expected_behavior": "Creates the parameter and confirms its name and default value."
+            },
+            {
+              "description": "Design an experiment without starting it",
+              "prompt": "Design an A/B test for a green checkout button.",
+              "tools_triggered": "search_parameters, create_parameter, create_variant, create_metric, create_experiment, link_to_browser, navigate_browser",
+              "expected_behavior": "Confirms the parameter, metric, and allocation with the user (creating anything that doesn't exist), then creates a variant, metric, and unstarted experiment in main, opens the experiment page, and tells the user to start it there."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Code request that reinvents what ABMeter does",
+              "prompt": "Write a Python function that assigns users to variants based on a hash."
+            },
+            {
+              "description": "Code review of an analysis script",
+              "prompt": "Review my experiment analysis script for correctness."
+            },
+            {
+              "description": "How-to for implementing feature flags in code",
+              "prompt": "Explain how to implement feature flags in a Rails app."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "ABMeter is free and does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "The update tools that overwrite an experiment, feature flag, parameter, variant, metric, event type or audience now declare destructiveHint: true, because each call overwrites the previous values."
+      }
+    }
+  }
+}

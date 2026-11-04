@@ -1,0 +1,20 @@
+{
+  "name": "abmeter",
+  "interface": {
+    "displayName": "ABMeter"
+  },
+  "plugins": [
+    {
+      "name": "abmeter",
+      "source": {
+        "source": "local",
+        "path": "./plugins/abmeter"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
