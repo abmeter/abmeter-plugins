@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "abmeter",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Design, run and analyze A/B experiments and feature flags in ABMeter from your assistant.",
   "author": {
     "name": "ABMeter",
@@ -20,7 +20,7 @@
       "interface": {
         "displayName": "ABMeter",
         "shortDescription": "A/B tests from your assistant",
-        "longDescription": "ABMeter is an A/B testing and feature flag service for individuals and small teams without a data scientist. Your assistant designs an experiment with you, creates its parameters, variants, metrics and audiences, and reads the results with a two-sample z-test.\n\nStarting or stopping an experiment and turning a feature flag on or off happen only on the ABMeter website, where you are signed in. Once an experiment runs, each user stays in the group they were first assigned to: the assistant cannot change its allocation or audiences, and an edit that would move its users, such as a feature flag that overrides a tested parameter, is refused and handed to you on the website. The assistant can still edit the rest of your configuration from the conversation, including the hypothesis, description and metrics of a running experiment, parameter defaults and variants that no running experiment uses, and the audience or variant of a flag that is already on.\n\nA new account is empty. Ask the assistant to load the sample data to try it on a realistic dataset in a separate demo space.",
+        "longDescription": "ABMeter is an A/B testing and feature flag service for individuals and small teams without a data scientist. Your assistant designs an experiment with you, creates its parameters, variants, metrics and audiences, and reads the results with a two-sample z-test.\n\nNo AI assistant can promise that a person approved what it did: the MCP protocol lets it recommend, and the client decides whether to ask you. ABMeter's promise is that a running experiment stays the experiment you started. There are many quiet ways to break one during setup, from a smaller allocation to a new default on a tested parameter, and ABMeter refuses them all while it runs. The decisions that remain, starting or stopping an experiment and turning a feature flag on or off, are yours to make on the ABMeter website, where you are signed in. The assistant sets everything up, tells you what it would do and why, and points you to the page where you apply it.\n\nA new account is empty. Ask the assistant to load the sample data to try it on a realistic dataset in a separate demo space.",
         "developerName": "ABMeter",
         "category": "Developer Tools",
         "capabilities": [
@@ -95,7 +95,7 @@
         "commerce_description": "ABMeter is free and does not sell products or process payments."
       },
       "publication": {
-        "release_notes": "The update tools that overwrite an experiment, feature flag, parameter, variant, metric, event type or audience now declare destructiveHint: true, because each call overwrites the previous values."
+        "release_notes": "The listing text leads with the human gate: starting or stopping an experiment and switching a feature flag happen only on the website. create_experiment and update_experiment now reject an audience set with no control, and the design-experiment skill says the control is the one audience without a variant and runs on the parameter defaults."
       }
     }
   }

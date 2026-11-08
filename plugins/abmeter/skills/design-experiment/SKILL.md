@@ -71,7 +71,7 @@ To successfully launch an experiment, you need:
 
 **Supporting:**
 - Event types needed to track the metric
-- Parameters and variants to implement the change
+- Parameters and variants to implement the change (one variant per treatment; the control needs none)
 - Available capacity in the chosen space
 - Risk assessment and guardrail metrics
 
@@ -126,15 +126,15 @@ Once you have the core information:
 
 3. **Plan the Implementation**
    - Identify required event types and parameters
-   - Determine variant configurations needed
+   - Determine the variants: one per treatment and none for the control. The control runs on the parameter defaults
    - Assess implementation complexity
    - Set guardrail metrics for high-risk changes
 
 4. **Create the Experiment**
    - Create event types if needed
-   - Create parameters and variants if needed
+   - Create parameters and variants if needed; set the parameter default to the current value instead of making a variant for it
    - Configure the experiment with proper allocation and primary_metric_slug
-   - Set up audience targeting
+   - Set up audiences: exactly one bare percentage (the control, no variant), one {"percentage": N, "variant": "<slug>"} object per treatment
 
 5. **Pre-Launch Review**
    - Present complete configuration
@@ -179,9 +179,9 @@ how quickly you need results. Many teams start with 20-30% for changes like this
 User: "20%"
 
 You: "Perfect! Let me create the metric and set up your experiment..."
-[Creates purchase_count metric, creates button_size parameter with variant,
+[Creates purchase_count metric, creates button_size parameter (default 'medium') with one variant (large),
  creates experiment with 20% allocation and two audiences: 50/50 split between
- control (default button) and treatment (larger button)]
+ the control (50, no variant, so it gets the default button) and the treatment (variant large)]
 
 "Great! I've created experiment 'larger-add-to-cart-button' with:
 - Primary metric: purchase_count (tracking purchase events)
